@@ -4,7 +4,7 @@
 Gradient Descent
 """
 import numpy as np
-import costs
+from costs import compute_loss
 
 
 def compute_gradient(y, tx, w):
@@ -15,7 +15,7 @@ def compute_gradient(y, tx, w):
     N = y.shape[0]
     
     gradient = -(1/N) * np.dot(np.transpose(tx),e)
-    loss = costs.compute_loss(y,tx,w)
+    loss = compute_loss(y,tx,w)
     
     return gradient, loss
 
@@ -33,12 +33,11 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma):
         
         # TODO: update w by gradient
         w = w - gamma * gradient
-        
         # store w and loss
         ws.append(np.copy(w))
         losses.append(loss)
 
-        print("Gradient Descent({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
-              bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))
+        print("Gradient Descent({bi}/{ti}): loss={l}".format(
+              bi=n_iter, ti=max_iters - 1, l=loss))
 
     return losses, ws
