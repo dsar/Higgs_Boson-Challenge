@@ -34,4 +34,6 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
         print("Stochastic Gradient Descent({bi}/{ti}): loss={l}".format(
                 bi=n_iter, ti=max_iters - 1, l=loss))
 
+    print(ws[-1])
+
     return losses, ws
