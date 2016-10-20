@@ -16,8 +16,5 @@ def ridge_regression(y, tx, lamb):
     N = tx.shape[0]
     D = tx.shape[1]
     
-    # problem with inv
-#     return np.linalg.inv(np.transpose(tx).dot(tx) + lamb*2*N*np.identity(D)).dot(np.transpose(tx)).dot(y)
-
-    ident = np.eye(D)*lamb
+    ident = np.eye(D)*lamb*2*N
     return np.linalg.solve(np.transpose(tx).dot(tx)+ident, np.transpose(tx).dot(y))
