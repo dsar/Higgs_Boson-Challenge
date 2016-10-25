@@ -10,7 +10,6 @@ from costs import compute_loss
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     # TODO: compute gradient and loss
-
     e = y - (np.dot(tx,w))
     N = y.shape[0]
     
