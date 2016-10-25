@@ -13,7 +13,7 @@ def compute_stoch_gradient(y, tx, w):
     gradient,loss = compute_gradient(y, tx, w)
     return gradient
 
-def least_squares_SGD(y, tx, initial_w, batch_size, gamma, max_iters):
+def least_squares_SGD(y, tx, initial_w, batch_size, gamma, max_iters, print_=True):
     """Stochastic gradient descent algorithm."""
     # TODO: implement stochastic gradient descent.
 
@@ -30,7 +30,8 @@ def least_squares_SGD(y, tx, initial_w, batch_size, gamma, max_iters):
 
         ws.append(np.copy(w))
         losses.append(loss)
-        print("Stochastic Gradient Descent({bi}/{ti}): loss={l}".format(bi=n_iter, ti=max_iters - 1, l=loss))
+        if print_ == True:
+            print("Stochastic Gradient Descent({bi}/{ti}): loss={l}".format(bi=n_iter, ti=max_iters - 1, l=loss))
 
     print('parameters w: ',ws[-1])
 

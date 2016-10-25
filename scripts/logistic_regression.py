@@ -65,3 +65,30 @@ def learning_by_gradient_descent(y, tx, w, gamma):
     gradient = calculate_gradient(y, tx, w)
     w = w - gamma * gradient
     return loss, w
+
+def logistic_regression_gradient_descent(y, x, print_=True):
+    # init parameters
+    max_iter = 10000
+    threshold = 1e-8
+    gamma = 0.0001
+    losses = []
+
+    # build tx
+    # tx = np.c_[np.ones((y.shape[0], 1)), x]
+    tx = x
+    w = np.zeros((tx.shape[1], 1))
+
+    # start the logistic regression
+    for iter in range(max_iter):
+        # get loss and update w.
+        loss, w = learning_by_gradient_descent(y, tx, w, gamma)
+        # log info
+        if iter % 1000 == 0:
+            if print_ == True:
+                print("Current iteration={i}, the loss={l}".format(i=iter, l=loss))
+        # converge criteria
+        losses.append(loss)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+
+    return loss, w

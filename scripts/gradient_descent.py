@@ -16,8 +16,13 @@ def compute_gradient(y, tx, w):
     return gradient, loss
 
 
-def least_squares_GD(y, tx, initial_w, gamma, max_iters): 
+def least_squares_GD(y, tx, initial_w, gamma, max_iters, print_=True): 
     """Gradient descent algorithm."""
+
+    if print_ == True:
+        print('y shape: ',y.shape)
+        print('tx shape: ',tx.shape)
+
     ws = [initial_w]
     losses = []
     w = initial_w
@@ -32,8 +37,9 @@ def least_squares_GD(y, tx, initial_w, gamma, max_iters):
         ws.append(np.copy(w))
         losses.append(loss)
 
-        print("Gradient Descent({bi}/{ti}): loss={l}".format(
-              bi=n_iter, ti=max_iters - 1, l=loss))
+        if print_ == True:
+            print("Gradient Descent({bi}/{ti}): loss={l}".format(
+                  bi=n_iter, ti=max_iters - 1, l=loss))
 
     print('parameters w: ',ws[-1])
 
