@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """some helper functions."""
 import numpy as np
+import matplotlib.pyplot as plt
 
 def standardize(x, mean_x=None, std_x=None):
     """Standardize the original data set."""
@@ -87,3 +88,20 @@ def standardize_outliers(x):
     print(std_x.shape)
     tx = np.hstack((np.ones((x.shape[0],1)), x))
     return tx, mean_x, std_x
+
+def count_outliers(tX,outlier):
+    features = tX.shape[1]
+    sample_size = tX.shape[0]
+    outliers = np.zeros(features)
+    for feature in range(features):
+        for row in range(sample_size):
+            if tX[row,feature] == outlier:
+                outliers[feature] += 1
+    return outliers
+
+def plot_features_by_y(y,tX):
+    features = tX.shape[1]
+    for feature in range(features):
+        print('feature: ',feature)
+        plt.scatter(tX[:,feature], y)
+        plt.show()
