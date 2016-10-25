@@ -21,7 +21,33 @@ def score(tX, y, w):
 	labels = predict_labels(w, tX)
 	return (labels == y).sum()/labels.size
 
-def test(y, tX, ratio):
+
+def test_GD(y,tX,ratio):
+	seed = 1
+	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
+
+	# Gradient descent
+	max_iters = 1000
+	gamma = 0.01
+	w_initial = np.zeros(tX_tr.shape[1])
+	_, w = least_squares_GD(y_tr, tX_tr, w_initial, max_iters, gamma)
+	s = score(tX_te, y_te, w)
+	print(s)
+
+def test_SGD(y, tX, ratio):
+	seed = 1
+	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
+
+	# Stochastic gradient descent
+	max_iters = 1000
+	gamma = 0.01
+	batch_size = 50
+	w_initial = np.zeros(tX_tr.shape[1])
+	_, w = least_squares_SGD(y_tr, tX_tr, w_initial, batch_size, max_iters, gamma)
+	s = score(tX_te, y_te, w)
+	print(s)
+
+def test_LS(y, tX, ratio):
 	seed = 1
 	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
 
@@ -30,32 +56,22 @@ def test(y, tX, ratio):
 	s = score(tX_te, y_te, w)
 	print(s)
 
-	# Gradient descent
-	"""
-	max_iters = 1000
-	gamma = 0.01
-	w_initial = np.zeros(tX_tr.shape[1])
-	_, w = gradient_descent(y_tr, tX_tr, w_initial, max_iters, gamma)
-	s = score(tX_te, y_te, w)
-	print(s)
-	"""
-
-	# Stochastic gradient descent
-	"""
-	max_iters = 1000
-	gamma = 0.01
-	batch_size = 50
-	w_initial = np.zeros(tX_tr.shape[1])
-	_, w = stochastic_gradient_descent(y_tr, tX_tr, w_initial, batch_size, max_iters, gamma)
-	s = score(tX_te, y_te, w)
-	print(s)
-	"""
-
+def test_RR(y, tX, ratio):
+	seed = 1
+	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
 	# Ridge regression
 	w = ridge_regression(y_tr, tX_tr, 0.01)
 	s = score(tX_te, y_te, w)
 	print(s)
 
+def test_LR(y, tX, ratio):
+	seed = 1
+	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
 	# Logistic regression
+	print('not implemented')
 
+def test_RLR(y, tX, ratio):
+	seed = 1
+	tX_tr, y_tr, tX_te, y_te = split_data(y, tX, ratio, seed)
 	# Regularized logistic regression
+	print('not implemented')
