@@ -2,8 +2,8 @@ import numpy as np
 from math import floor
 from proj1_helpers import predict_labels
 from least_squares import least_squares
-from gradient_descent import gradient_descent
-from stochastic_gradient_descent import stochastic_gradient_descent
+from gradient_descent import least_squares_GD
+from stochastic_gradient_descent import least_squares_SGD
 from ridge_regression import ridge_regression
 
 def split_data(y, X, ratio, seed):
