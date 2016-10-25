@@ -105,3 +105,16 @@ def plot_features_by_y(y,tX):
         print('feature: ',feature)
         plt.scatter(tX[:,feature], y)
         plt.show()
+
+def get_min_param_index(sgd_losses):
+    index = 0
+    min_loss = 100000
+    min_index = len(sgd_losses) - 1
+    for loss in sgd_losses:
+        if loss < min_loss:
+            min_loss = loss
+            min_index = index
+        index += 1
+#         print(loss)
+
+    return min_index, min_loss

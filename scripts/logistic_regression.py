@@ -66,11 +66,8 @@ def learning_by_gradient_descent(y, tx, w, gamma):
     w = w - gamma * gradient
     return loss, w
 
-def logistic_regression_gradient_descent(y, x, print_=True):
+def logistic_regression_gradient_descent(y, x, max_iter=4000, threshold=1e-8, gamma = 0.000000001, print_=True):
     # init parameters
-    max_iter = 10000
-    threshold = 1e-8
-    gamma = 0.0001
     losses = []
 
     # build tx

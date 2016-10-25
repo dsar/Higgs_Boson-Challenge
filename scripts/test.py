@@ -1,6 +1,7 @@
 import numpy as np
 from split_data import split_data
 from proj1_helpers import predict_labels
+from helpers import get_min_param_index
 from least_squares import least_squares
 from gradient_descent import least_squares_GD
 from stochastic_gradient_descent import least_squares_SGD
@@ -28,18 +29,6 @@ def test_GD(y, tX, ratio=0.5, w_initial=None, gamma=0.01, max_iters=1000, seed=1
 
 	print('GD score: ', s)
 	print()
-
-def get_min_param_index(sgd_losses):
-    index = 0
-    min_loss = 100000
-    min_index = len(sgd_losses) - 1
-    for loss in sgd_losses:
-        if loss < min_loss:
-            min_loss = loss
-            min_index = index
-        index += 1
-
-    return min_index, min_loss
 
 # Stochastic gradient descent
 def test_SGD(y, tX, ratio=0.5, w_initial=None, gamma=0.01, max_iters=1000, batch_size=50, seed=1):
