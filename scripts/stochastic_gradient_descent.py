@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-"""Problem Sheet 2.
-
-Stochastic Gradient Descent
-"""
 
 import numpy as np
 from helpers import batch_iter
@@ -17,7 +13,7 @@ def compute_stoch_gradient(y, tx, w):
     gradient,loss = compute_gradient(y, tx, w)
     return gradient
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
+def least_squares_SGD(y, tx, initial_w, batch_size, gamma, max_iters):
     """Stochastic gradient descent algorithm."""
     # TODO: implement stochastic gradient descent.
 

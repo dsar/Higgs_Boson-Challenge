@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Problem Sheet 2.
 
-Gradient Descent
-"""
 import numpy as np
 from costs import compute_loss
 
@@ -19,9 +16,8 @@ def compute_gradient(y, tx, w):
     return gradient, loss
 
 
-def gradient_descent(y, tx, initial_w, max_iters, gamma): 
+def least_squares_GD(y, tx, initial_w, gamma, max_iters): 
     """Gradient descent algorithm."""
-    # Define parameters to store w and loss
     ws = [initial_w]
     losses = []
     w = initial_w
