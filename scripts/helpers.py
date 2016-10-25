@@ -14,6 +14,24 @@ def standardize(x, mean_x=None, std_x=None):
     tx = np.hstack((np.ones((x.shape[0],1)), x))
     return tx, mean_x, std_x
 
+def standardize_outliers(x):
+    N = x.shape[0]
+    D = x.shape[1]
+    print(N, D)
+    mean_x = np.zeros(D)
+    std_x = np.zeros(D)
+    for i in range(D):
+        col = x[:,i]
+        mean_x[i] = np.mean(col[col!=-999])
+        std_x[i] = np.std(col[col!=-999])
+        col[col==-999] = mean_x[i]
+        col = (col-mean_x[i])/std_x[i] if std_x[i] != 0 else (col-mean_x[i])
+        x[:,i] = col
+    print(mean_x.shape)
+    print(std_x.shape)
+    tx = np.hstack((np.ones((x.shape[0],1)), x))
+    return tx, mean_x, std_x
+
 
 def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
     """
