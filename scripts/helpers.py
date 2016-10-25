@@ -14,24 +14,6 @@ def standardize(x, mean_x=None, std_x=None):
     tx = np.hstack((np.ones((x.shape[0],1)), x))
     return tx, mean_x, std_x
 
-def standardize_outliers(x):
-    N = x.shape[0]
-    D = x.shape[1]
-    print(N, D)
-    mean_x = np.zeros(D)
-    std_x = np.zeros(D)
-    for i in range(D):
-        col = x[:,i]
-        mean_x[i] = np.mean(col[col!=-999])
-        std_x[i] = np.std(col[col!=-999])
-        col[col==-999] = mean_x[i]
-        col = (col-mean_x[i])/std_x[i] if std_x[i] != 0 else (col-mean_x[i])
-        x[:,i] = col
-    print(mean_x.shape)
-    print(std_x.shape)
-    tx = np.hstack((np.ones((x.shape[0],1)), x))
-    return tx, mean_x, std_x
-
 
 def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
     """
@@ -62,3 +44,46 @@ def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
         end_index = min((batch_num + 1) * batch_size, data_size)
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
+
+# my funcions
+
+def de_standardize(x, mean_x, std_x):
+    """Reverse the procedure of standardization."""
+    x = x * std_x
+    x = x + mean_x
+    return x
+
+def sample_data(y, x, seed, size_samples):
+    """sample from dataset."""
+    np.random.seed(seed)
+    num_observations = y.shape[0]
+    random_permuted_indices = np.random.permutation(num_observations)
+    y = y[random_permuted_indices]
+    x = x[random_permuted_indices]
+    return y[:size_samples], x[:size_samples]
+
+def build_model_data(height, weight):
+    """Form (y,tX) to get regression data in matrix form."""
+    y = weight
+    x = height
+    num_samples = len(y)
+    tx = np.c_[np.ones(num_samples), x]
+    return y, tx
+
+def standardize_outliers(x):
+    N = x.shape[0]
+    D = x.shape[1]
+    print(N, D)
+    mean_x = np.zeros(D)
+    std_x = np.zeros(D)
+    for i in range(D):
+        col = x[:,i]
+        mean_x[i] = np.mean(col[col!=-999])
+        std_x[i] = np.std(col[col!=-999])
+        col[col==-999] = mean_x[i]
+        col = (col-mean_x[i])/std_x[i] if std_x[i] != 0 else (col-mean_x[i])
+        x[:,i] = col
+    print(mean_x.shape)
+    print(std_x.shape)
+    tx = np.hstack((np.ones((x.shape[0],1)), x))
+    return tx, mean_x, std_x
