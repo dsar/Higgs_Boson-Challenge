@@ -20,23 +20,25 @@ def calculate_loss(y, tx, w):
     # print('scalar shape: ',scalar.shape)
     # log = np.log(1+np.exp(tx.dot(w)))
     # print('log: ',log.shape)
-    # mul = np.transpose(y).dot(tx.dot(w))
-    # print('(y * tx.dot(w)) shape: ',mul.shape)
+    y = y.reshape((y.shape[0], 1))
+    # print('y shape:',y.shape)
+    # mul = y * scalar
+    # print('mul shape: ',mul.shape)
     # final = log - mul
     # print('final shape: ',final.shape)
 
     # lab05 way
-    # total_loss = np.sum(np.log(1+np.exp(tx.dot(w))) - y*tx.dot(w))
+    total_loss = (1.0/y.shape[0])* np.sum(np.log(1+np.exp(tx.dot(w))) - y*tx.dot(w))
 
     # another way
-    total_loss = np.sum(np.log(1+np.exp(tx.dot(w))) - np.transpose(y).dot(tx.dot(w)))
+    # total_loss = np.sum(np.log(1+np.exp(tx.dot(w))) - np.transpose(y).dot(tx.dot(w)))
 
     return total_loss
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
 
-    #~~~DEBUGGING~~~
+    # ~~~DEBUGGING~~~
     # print('---calculate gradient---START')
     # print('tx shape: ',tx.shape)
     # print('w shape:',w.shape)
@@ -45,14 +47,15 @@ def calculate_gradient(y, tx, w):
 
     # scalar = sigmoid(tx.dot(w))
     # print('scalar shape: ',scalar.shape)
+    y = y.reshape((y.shape[0], 1))
     # sub = np.transpose(scalar) - y
     # print('sub shape: ',sub.shape)
 
     # lab05 way
-    # gradient = np.transpose(tx).dot(sigmoid(tx.dot(w))-y)
+    gradient = np.transpose(tx).dot(sigmoid(tx.dot(w))-y)
 
     # another way
-    gradient = np.transpose(tx).dot(np.transpose(np.transpose(sigmoid(tx.dot(w)))-y))
+    # gradient = np.transpose(tx).dot(np.transpose(np.transpose(sigmoid(tx.dot(w)))-y))
     
     return gradient
 

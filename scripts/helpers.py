@@ -84,9 +84,8 @@ def standardize_outliers(x):
         col[col==-999] = mean_x[i]
         col = (col-mean_x[i])/std_x[i] if std_x[i] != 0 else (col-mean_x[i])
         x[:,i] = col
-    print(mean_x.shape)
-    print(std_x.shape)
     tx = np.hstack((np.ones((x.shape[0],1)), x))
+    print(tx.shape)
     return tx, mean_x, std_x
 
 def count_outliers(tX,outlier):
@@ -118,3 +117,26 @@ def get_min_param_index(sgd_losses):
 #         print(loss)
 
     return min_index, min_loss
+
+
+def build_k_indices(y, k_fold, seed):
+    """build k indices for k-fold."""
+    num_row = y.shape[0]
+    interval = int(num_row / k_fold)
+    np.random.seed(seed) #make random numbers predictable
+    indices = np.random.permutation(num_row)
+    k_indices = [indices[k * interval: (k + 1) * interval] for k in range(k_fold)]
+    return np.array(k_indices)
+
+def kfold_split_data(x, y,test_indices):
+    
+    N = y.shape[0]
+    
+    x_test = x[test_indices]
+    y_test = y[test_indices]
+    
+    train_indices = [item for item in range(N) if item not in test_indices]
+    x_train = x[train_indices]
+    y_train = y[train_indices]
+    
+    return x_test,x_train,y_test,y_train
