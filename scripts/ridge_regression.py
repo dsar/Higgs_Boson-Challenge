@@ -13,6 +13,7 @@ from least_squares import least_squares
 from split_data import split_data
 from plots import bias_variance_decomposition_visualization
 from poly import *
+from test import *
 
 def ridge_regression(y, tx, lamb):
     """implement ridge regression."""

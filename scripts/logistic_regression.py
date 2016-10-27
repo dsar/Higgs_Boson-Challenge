@@ -6,19 +6,6 @@ def sigmoid(t):
     """apply sigmoid function on t."""
     return 1.0 / (1.0 + np.exp(-t))
 
-# function s = sigmoid(tX, beta)
-#      z = tX * beta;
-#      s = zeros(length(z),1);
-#      for i = 1:length(z)
-#         if z(i) >= 0
-#             s(i) = 1 ./ (1 + exp(-z(i)));
-#         else
-#             s(i) = exp(z(i)) ./ (1 + exp(z(i)));
-#         end
-#      end
-# end
-
-
 def calculate_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
 
