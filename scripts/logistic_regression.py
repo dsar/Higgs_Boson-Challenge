@@ -9,54 +9,14 @@ def sigmoid(t):
 def calculate_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
 
-    #~~~DEBUGGING~~~
-    # print('---calculate_loss---START')
-    # print('tx shape: ',tx.shape)
-    # print('w shape:',w.shape)
-    # print('y shape:',y.shape)
-    # print('---calculate_loss---END')
-
-    # scalar = tx.dot(w)
-    # print('scalar shape: ',scalar.shape)
-    # log = np.log(1+np.exp(tx.dot(w)))
-    # print('log: ',log.shape)
     y = y.reshape((y.shape[0], 1))
-    # print('y shape:',y.shape)
-    # mul = y * scalar
-    # print('mul shape: ',mul.shape)
-    # final = log - mul
-    # print('final shape: ',final.shape)
-
-    # lab05 way
     total_loss = (1.0/y.shape[0])* np.sum(np.log(1+np.exp(tx.dot(w))) - y*tx.dot(w))
-
-    # another way
-    # total_loss = np.sum(np.log(1+np.exp(tx.dot(w))) - np.transpose(y).dot(tx.dot(w)))
-
     return total_loss
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
-
-    # ~~~DEBUGGING~~~
-    # print('---calculate gradient---START')
-    # print('tx shape: ',tx.shape)
-    # print('w shape:',w.shape)
-    # print('y shape:',y.shape)
-    # print('---calculate gradient---END')
-
-    # scalar = sigmoid(tx.dot(w))
-    # print('scalar shape: ',scalar.shape)
     y = y.reshape((y.shape[0], 1))
-    # sub = np.transpose(scalar) - y
-    # print('sub shape: ',sub.shape)
-
-    # lab05 way
     gradient = np.transpose(tx).dot(sigmoid(tx.dot(w))-y)
-
-    # another way
-    # gradient = np.transpose(tx).dot(np.transpose(np.transpose(sigmoid(tx.dot(w)))-y))
-    
     return gradient
 
 def learning_by_gradient_descent(y, tx, w, gamma):

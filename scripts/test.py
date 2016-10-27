@@ -89,7 +89,7 @@ def test_RR(y, tX, ratio=0.2,lambda_=0.01,seed = 1):
 
 # Logistic regression
 def test_LR(y, tX, ratio=0.2, seed=1, print_=False, threshold=0.5):
-	print('LR test')
+	# print('LR test')
 	y_test, y_train, x_test, x_train  = split_data(y, tX, ratio, seed)
 
 	loss, w = logistic_regression_gradient_descent(y, tX,print_=False)
