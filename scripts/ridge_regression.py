@@ -12,6 +12,7 @@ from plots import cross_validation_visualization
 from least_squares import least_squares
 from split_data import split_data
 from plots import bias_variance_decomposition_visualization
+from poly import *
 
 def ridge_regression(y, tx, lamb):
     """implement ridge regression."""
@@ -25,7 +26,7 @@ def ridge_regression(y, tx, lamb):
 
     return w, loss
 
-def cross_validation(y, x, k_indices, k, lambda_, degree):
+def cross_validation(y, x, k_indices, k, lambda_):
     """return the loss of ridge regression."""
 
     loss_tr=np.zeros(k)
@@ -36,8 +37,8 @@ def cross_validation(y, x, k_indices, k, lambda_, degree):
         mask[i] = False
         train_indices = np.array([index for indices in k_indices[mask] for index in indices])
 
-        tx = build_poly(x, degree)
-        # tx = x
+        # tx = build_poly(x, degree)
+        tx = x
 
         w, loss = ridge_regression(y[train_indices], tx[train_indices], lambda_)
 
@@ -52,20 +53,24 @@ def get_best_lambda(lambdas, rmse_tr, rmse_te):
 	index = rmse_te.index(min_rmse)
 	return lambdas[index]
 
-def cross_validation_ridge_regression(y,x,seed=1, degree=1, k_fold=5, lambdas=None):
+def cross_validation_ridge_regression(y,x,seed=1, k_fold=5, lambdas=None):
 
-	if lambdas == None:
-		lambdas = np.logspace(-15, 5, 50)
+    if lambdas == None:
+        lambdas = np.logspace(-5, 2, 5)
 
-	k_indices = build_k_indices(y, k_fold, seed)
-	rmse_tr = []
-	rmse_te = []
+    k_indices = build_k_indices(y, k_fold, seed)
+    rmse_tr = []
+    rmse_te = []
 
-	for lambda_ in lambdas:
-	    loss_tr, loss_te = cross_validation(y, x, k_indices, k_fold, lambda_, degree)
-	    rmse_tr.append(np.copy(loss_tr))
-	    rmse_te.append(np.copy(loss_te))
+    for lambda_ in lambdas:
+        tx = x[:,1:]
+        best_deg = find_best_poly(y, tx, test_RR)
+        opt_tr = build_optimal(tx, best_deg)
+        # w, _ = ridge_regression(y, opt_tr,0.01)
+        loss_tr, loss_te = cross_validation(y, opt_tr, k_indices, k_fold, lambda_)
+        rmse_tr.append(np.copy(loss_tr))
+        rmse_te.append(np.copy(loss_te))
 
-	cross_validation_visualization(lambdas, rmse_tr, rmse_te)
+    cross_validation_visualization(lambdas, rmse_tr, rmse_te)
 
-	return min(rmse_te), get_best_lambda(lambdas, rmse_tr, rmse_te)
+    return min(rmse_te), get_best_lambda(lambdas, rmse_tr, rmse_te)

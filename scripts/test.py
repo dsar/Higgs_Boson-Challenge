@@ -40,6 +40,7 @@ def test_GD(y, tX, ratio=0.2, w_initial=None, gamma=0.01, max_iters=1000, seed=1
 
 	s = score(x_test, y_test, w[-1])
 
+	return s
 	print('GD score: ', s)
 	print()
 
@@ -59,25 +60,30 @@ def test_SGD(y, tX, ratio=0.2, w_initial=None, gamma=0.01, max_iters=1000, batch
 
 	s = score(x_test, y_test, w[min_index])
 	
+	return s
 	print('SGD score: ',s)
 	print()
 
 # Least squares
 def test_LS(y,tX,ratio=0.2,seed=1):
-	print('LS test')
+	# print('LS test')
 	y_test, y_train, x_test, x_train  = split_data(y, tX, ratio, seed)
 
 	w, _ = least_squares(y_train, x_train)
 	s = score(x_test, y_test, w)
+	
+	return s
 	print("LS score: ",s)
 	print()
 
 # Ridge regression
 def test_RR(y, tX, ratio=0.2,lambda_=0.01,seed = 1):
-	print('RR test')
+	# print('RR test')
 	y_test, y_train, x_test, x_train  = split_data(y, tX, ratio, seed)
 	w, _ = ridge_regression(y_train, x_train, lambda_)
 	s = score(x_test, y_test, w)
+	
+	return s
 	print('Ridge Regression score: ',s)
 	print()
 
@@ -88,6 +94,8 @@ def test_LR(y, tX, ratio=0.2, seed=1, print_=False, threshold=0.5):
 
 	loss, w = logistic_regression_gradient_descent(y, tX,print_=False)
 	s = logistic_score(x_test,y_test,w,threshold)
+	
+	return s
 	print('Logistic Regression score: ',s)
 	print()
 
