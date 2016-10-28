@@ -1,8 +1,9 @@
 import numpy as np
 from build_polynomial import build_poly
+
 from test import *
 
-def find_best_poly(y, tX, max_degree=5):
+def find_best_poly(y, tX, test_function, max_degree=5):
 	best_degrees = np.ones(tX.shape[1], dtype=np.int8)
 	best_scores = np.zeros(tX.shape[1])
 	for i in range(tX.shape[1]):
@@ -10,7 +11,8 @@ def find_best_poly(y, tX, max_degree=5):
 			poly = build_poly(tX[:,i], d)
 			old = np.delete(tX, i, axis=1)
 			full = np.c_[old, poly]
-			score = test_LS(y, full)
+
+			score = test_function(y, full)
 			if score > best_scores[i]:
 				best_scores[i] = score
 				best_degrees[i] = d

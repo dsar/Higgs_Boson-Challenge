@@ -2,6 +2,7 @@
 
 import numpy as np
 from costs import compute_loss
+from proj1_helpers import split_data, score
 
 
 def compute_gradient(y, tx, w):
@@ -44,3 +45,18 @@ def least_squares_GD(y, tx, initial_w, gamma, max_iters, print_=True):
     print('parameters w: ',ws[-1])
 
     return losses, ws
+
+# Gradient descent
+def test_GD(y, tX, ratio=0.2, w_initial=None, gamma=0.01, max_iters=1000, seed=1):
+    y_test, y_train, x_test, x_train  = split_data(y, tX, ratio, seed)
+
+    features = x_train.shape[1]
+    
+    if w_initial == None:
+        w_initial = np.zeros(features)
+
+    _, w = least_squares_GD(y_train, x_train, w_initial, gamma, max_iters ,print_=False)
+
+    s = score(x_test, y_test, w[-1])
+
+    return s
