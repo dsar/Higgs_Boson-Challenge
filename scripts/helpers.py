@@ -1,20 +1,8 @@
 # -*- coding: utf-8 -*-
 """some helper functions."""
 import numpy as np
-import matplotlib.pyplot as plt
-
-def standardize(x, mean_x=None, std_x=None):
-    """Standardize the original data set."""
-    if mean_x is None:
-        mean_x = np.mean(x, axis=0)
-    x = x - mean_x
-    if std_x is None:
-        std_x = np.std(x, axis=0)
-    x[:, std_x>0] = x[:, std_x>0] / std_x[std_x>0]
-    
-    tx = np.hstack((np.ones((x.shape[0],1)), x))
-    return tx, mean_x, std_x
-
+import csv
+from costs import sigmoid
 
 def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
     """
@@ -47,15 +35,29 @@ def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
 # my funcions
+def build_poly(x, degree):
+    """Build the polynomial expansion of x to the given degree"""
+    N = x.shape[0]
+    φ = np.ones([N, degree+1])
+    for d in range(1,degree+1):
+        φ[:,d] = x ** d
+    return φ
 
-def de_standardize(x, mean_x, std_x):
-    """Reverse the procedure of standardization."""
-    x = x * std_x
-    x = x + mean_x
-    return x
+def split_data(y, tx, a_indices):
+    """Splits the data in two sets"""
+    N = y.shape[0]
+    b_indices = np.ones(N, dtype=np.bool)
+    b_indices[a_indices] = 0
+
+    y_a = y[a_indices]
+    tx_a = tx[a_indices]    
+    y_b = y[b_indices]
+    tx_b = tx[b_indices]
+
+    return y_a, tx_a, y_b, tx_b
 
 def sample_data(y, x, seed, size_samples):
-    """sample from dataset."""
+    """Sample points from the dataset"""
     np.random.seed(seed)
     num_observations = y.shape[0]
     random_permuted_indices = np.random.permutation(num_observations)
@@ -63,80 +65,71 @@ def sample_data(y, x, seed, size_samples):
     x = x[random_permuted_indices]
     return y[:size_samples], x[:size_samples]
 
-def build_model_data(height, weight):
-    """Form (y,tX) to get regression data in matrix form."""
-    y = weight
-    x = height
-    num_samples = len(y)
-    tx = np.c_[np.ones(num_samples), x]
-    return y, tx
+def load_csv_data(data_path, sub_sample=False):
+    """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
+    y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
+    x = np.genfromtxt(data_path, delimiter=",", skip_header=1)
+    ids = x[:, 0].astype(np.int)
+    input_data = x[:, 2:]
 
-def standardize_outliers(x):
-    N = x.shape[0]
-    D = x.shape[1]
-    print(N, D)
-    mean_x = np.zeros(D)
-    std_x = np.zeros(D)
-    for i in range(D):
-        col = x[:,i]
-        mean_x[i] = np.mean(col[col!=-999])
-        std_x[i] = np.std(col[col!=-999])
-        col[col==-999] = mean_x[i]
-        col = (col-mean_x[i])/std_x[i] if std_x[i] != 0 else (col-mean_x[i])
-        x[:,i] = col
-    tx = np.hstack((np.ones((x.shape[0],1)), x))
-    print(tx.shape)
-    return tx, mean_x, std_x
-
-def count_outliers(tX,outlier):
-    features = tX.shape[1]
-    sample_size = tX.shape[0]
-    outliers = np.zeros(features)
-    for feature in range(features):
-        for row in range(sample_size):
-            if tX[row,feature] == outlier:
-                outliers[feature] += 1
-    return outliers
-
-def plot_features_by_y(y,tX):
-    features = tX.shape[1]
-    for feature in range(features):
-        print('feature: ',feature)
-        plt.scatter(tX[:,feature], y)
-        plt.show()
-
-def get_min_param_index(sgd_losses):
-    index = 0
-    min_loss = 100000
-    min_index = len(sgd_losses) - 1
-    for loss in sgd_losses:
-        if loss < min_loss:
-            min_loss = loss
-            min_index = index
-        index += 1
-#         print(loss)
-
-    return min_index, min_loss
-
-
-def build_k_indices(y, k_fold, seed):
-    """build k indices for k-fold."""
-    num_row = y.shape[0]
-    interval = int(num_row / k_fold)
-    np.random.seed(seed) #make random numbers predictable
-    indices = np.random.permutation(num_row)
-    k_indices = [indices[k * interval: (k + 1) * interval] for k in range(k_fold)]
-    return np.array(k_indices)
-
-def kfold_split_data(x, y,test_indices):
+    # convert class labels from strings to binary (-1,1)
+    yb = np.ones(len(y))
+    yb[np.where(y=='b')] = -1
     
-    N = y.shape[0]
-    
-    x_test = x[test_indices]
-    y_test = y[test_indices]
-    
-    train_indices = [item for item in range(N) if item not in test_indices]
-    x_train = x[train_indices]
-    y_train = y[train_indices]
-    
-    return x_test,x_train,y_test,y_train
+    # sub-sample
+    if sub_sample:
+        yb = yb[::50]
+        input_data = input_data[::50]
+        ids = ids[::50]
+
+    return yb, input_data, ids
+
+def create_csv_submission(ids, y_pred, name):
+    """
+    Creates an output file in csv format for submission to kaggle
+    Arguments: ids (event ids associated with each prediction)
+               y_pred (predicted class labels)
+               name (string name of .csv output file to be created)
+    """
+    with open(name, 'w') as csvfile:
+        fieldnames = ['Id', 'Prediction']
+        writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
+        writer.writeheader()
+        for r1, r2 in zip(ids, y_pred):
+            writer.writerow({'Id':int(r1),'Prediction':int(r2)})
+
+
+def predict_labels(weights, data, threshold=0):
+    """Generates class predictions given weights, and a test data matrix"""
+
+    y_pred = np.dot(data, weights)
+    y_pred[np.where(y_pred <= threshold)] = -1
+    y_pred[np.where(y_pred > threshold)] = 1
+    return y_pred
+
+
+def predict_logistic_labels(weights, data, threshold=0.5):
+    """Generates class predictions given weights, and a test data matrix"""
+
+    y_pred = sigmoid(np.dot(data, weights))
+    y_pred[np.where(y_pred <= threshold)] = -1
+    y_pred[np.where(y_pred > threshold)] = 1
+    return y_pred
+
+def score(y, tx, w, threshold=0):
+    labels = predict_labels(w, tx, threshold)
+    count = 0
+    for i in range(len(labels)):
+        if labels[i] == y[i]:
+            count += 1
+
+    return count/len(labels)
+
+def logistic_score(y, tx, w, threshold=0.5):
+    labels = predict_logistic_labels(w, tx, threshold)
+    count = 0
+    for i in range(len(labels)):
+        if labels[i] == y[i]:
+            count += 1
+
+    return count/len(labels)
