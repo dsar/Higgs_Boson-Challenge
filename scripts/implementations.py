@@ -4,18 +4,22 @@ from costs import compute_loss, compute_logistic_loss, sigmoid
 from helpers import batch_iter
 
 def compute_gradient(y, tx, w):
-	"""Compute the gradient for GD and SGD"""
-	N = y.shape[0]
-	e = y - tx.dot(w)
+    """Compute the gradient."""
+    # TODO: compute gradient and loss
+    e = y - (np.dot(tx,w))
+    N = y.shape[0]
+    
+    gradient = -(1/N) * np.dot(np.transpose(tx),e)
+    
+    return gradient
 
-	return -(1/N) * tx.T.dot(e)
 	
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 	w = initial_w
 
 	for n_iter in range(max_iters):
 		gradient = compute_gradient(y, tx, w)
-		loss = compute_loss(y, tx, w)
+		loss = compute_loss(y,tx,w)
 		w = w - gamma * gradient
 
 	return w, loss

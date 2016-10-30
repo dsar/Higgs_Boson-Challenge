@@ -3,7 +3,7 @@ import numpy as np
 from helpers import build_poly, score
 from implementations import least_squares
 
-def best_feature_degrees(y, tx, test_function, max_degree=5):
+def best_feature_degrees(y, tx, test_function, max_degree=12):
 	"""Compute the optimal polynomial expansion degree for each feature individually"""
 	D = tx.shape[1]
 	best_degrees = np.ones(D, dtype=np.int8)

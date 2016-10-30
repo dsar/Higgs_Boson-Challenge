@@ -35,6 +35,15 @@ def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
 # my funcions
+# def build_poly(x, degree):
+#     """Build the polynomial expansion of x to the given degree"""
+#     N = x.shape[0]
+#     φ = np.ones([N, degree+1])
+#     for d in range(1,degree+1):
+#         φ[:,d] = x ** d
+#     return φ
+
+# my funcions
 def build_poly(x, degree):
     """Build the polynomial expansion of x to the given degree"""
     N = x.shape[0]
@@ -42,6 +51,7 @@ def build_poly(x, degree):
     for d in range(1,degree+1):
         φ[:,d] = x ** d
     return φ
+
 
 def split_data(y, tx, a_indices):
     """Splits the data in two sets"""
