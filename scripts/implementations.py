@@ -8,7 +8,7 @@ def compute_gradient(y, tx, w):
 	N = y.shape[0]
 	e = y - tx.dot(w)
 
-	return -(1/N) * tx.T.dot(e)
+	return -(1.0/N) * np.transpose(tx).dot(e)
 	
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 	w = initial_w

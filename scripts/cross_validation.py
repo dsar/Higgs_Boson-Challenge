@@ -55,7 +55,7 @@ def test_LS(y, tx):
 def test_GD(y, tx, gamma):
 	return cross_validation(y, tx, "GD", {
 		"initial_w": np.zeros(tx.shape[1]),
-		"max_iters": 1000,
+		"max_iters": 500,
 		"gamma"    : gamma
 		})
 
