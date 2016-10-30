@@ -15,7 +15,8 @@ def best_feature_degrees(y, tx, test_function, max_degree=5):
 			tx_no_i = np.delete(tx, i, axis=1)
 			feature_exp = np.c_[tx_no_i, feature_poly]
 
-			l, s = test_function(y, feature_exp)
+			w, _ = test_function(y, feature_exp)
+			s = score(y, feature_exp, w)
 			if s > best_scores[i]:
 				best_scores[i] = s
 				best_degrees[i] = d
