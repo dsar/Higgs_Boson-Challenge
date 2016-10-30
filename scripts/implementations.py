@@ -40,7 +40,7 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 	return min_w, min_loss
 
 def least_squares(y, tx):
-	w = np.linalg.solve(tx.T.dot(tx), tx.T.dot(y))
+	w = np.linalg.solve(np.transpose(tx).dot(tx), np.transpose(tx).dot(y))
 	loss = compute_loss(y, tx, w)
 
 	return w, loss
@@ -50,7 +50,7 @@ def ridge_regression(y, tx, lambda_):
 	D = tx.shape[1]
 
 	ident = np.eye(D) * lambda_ * 2 * N
-	w = np.linalg.solve(tx.T.dot(tx) + ident, tx.T.dot(y))
+	w = np.linalg.solve(np.transpose(tx).dot(tx) + ident, np.transpose(tx).dot(y))
 
 	loss = compute_loss(y, tx, w)
 
@@ -58,7 +58,7 @@ def ridge_regression(y, tx, lambda_):
 
 def compute_logistic_gradient(y, tx, w):
 	"""Compute the gradient for logistic regression"""
-	return tx.T.dot(sigmoid(tx.dot(w)) - y)
+	return np.transpose(tx).dot(sigmoid(tx.dot(w)) - y)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
 	w = initial_w
@@ -72,7 +72,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 def regularizers(lambda_, w):
 	gradient_reg = 2 * lambda_ * w
-	loss_reg = np.asscalar(lambda_ * w.T.dot(w))
+	loss_reg = np.asscalar(lambda_ * np.transpose(tx).dot(w))
 
 	return gradient_reg, loss_reg
 
