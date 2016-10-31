@@ -55,14 +55,14 @@ def test_LS(y, tx):
 def test_GD(y, tx, gamma):
 	return cross_validation(y, tx, "GD", {
 		"initial_w": np.zeros(tx.shape[1]),
-		"max_iters": 500,
+		"max_iters": 100,
 		"gamma"    : gamma
 		})
 
 def test_SGD(y, tx, gamma):
 	return cross_validation(y, tx, "SGD", {
 		"initial_w": np.zeros(tx.shape[1]),
-		"max_iters": 10000,
+		"max_iters": 100,
 		"gamma"    : gamma
 		})
 
@@ -74,14 +74,14 @@ def test_RR(y, tx, lambda_):
 def test_LR(y, tx, gamma):
 	return cross_validation(y, tx, "LR", {
 		"initial_w": np.zeros(tx.shape[1]),
-		"max_iters": 1000,
+		"max_iters": 100,
 		"gamma"    : gamma
 		})
 
 def test_RLR(y, tx, lambda_, gamma):
 	return cross_validation(y, tx, "RLR", {
 		"initial_w": np.zeros(tx.shape[1]),
-		"max_iters": 1000,
+		"max_iters": 100,
 		"gamma"    : gamma,
 		"lambda_"  : lambda_
 		})
