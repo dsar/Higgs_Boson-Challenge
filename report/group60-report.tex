@@ -15,7 +15,7 @@
 \maketitle
 
 \begin{abstract}
-In this report, we summarize our findings for the first project of the machine learning course taught at EPFL. The goal of the project is the computation as well as the error estimation of predictions of a classification dataset of the Higgs boson by the CERN. Key aspects of the project are exploratory data analysis, feature processing, the implementation of several regression and classification machine learning methods and the comparison of different models using cross-validation.
+In this report, we summarize our findings for the first project of the machine learning course taught at EPFL \cite{pcml2016kaggle} . The goal of the project is the computation as well as the error estimation of predictions of a classification dataset of the Higgs boson by the CERN  \cite{adam2014learning} . Key aspects of the project are exploratory data analysis, feature processing, the implementation of several regression and classification machine learning methods and the comparison of different models using cross-validation.
 \end{abstract}
 
 \section*{Introduction}
@@ -26,7 +26,7 @@ In this section, we perform a data analysis on the given dataset and we describe
 \subsection{Data Description}
 Our dataset consists of 250'000 measurements, each with a binary class which represents its type and 30 more features. By visualizing a simple plot, we realized that the classes in the dataset are skewed, having approximately 160'000 particles in class $b$ and 90'000 particles in class $s$. Also, by visualizing each feature with respect to its class we searched for features that give us zero profit in predicting the class of the particle. However, none of the features could be eliminated for sure (since we do not know what these features represent in reality). All the aforementioned plots can be seen in our notebook project.
 \subsection{Rank Deficiency}
-By running the \verb|matrix_rank()| function of the numpy library we managed to get the rank of our training data. Because the rank of this matrix is equal to the number of features we claim that our data is not ill-conditioned, as the features are not linearly dependent to each other. As we will see later, since we have a very good rank on our training data set, we expect to get a very good score on the Least Squares using normal equations method.
+By running the \verb|matrix_rank()| function of the numpy library we managed to get the rank of our training data. Because the rank of this matrix is equal to the number of features we claim that our data is not ill-conditioned \cite{wiki} , as the features are not linearly dependent to each other. As we will see later, since we have a very good rank on our training data set, we expect to get a very good score on the Least Squares using normal equations method.
 \subsection{Standardization}
 We applied standardization on the training and test datasets before doing any further work. In addition to reducing the data on each feature to zero mean and unit variance as was done in the provided standardization function, we also handled the values which could not be measured (those with value -999) by replacing them by the mean value of their feature. The mean was of course calculated without including these outliers.
 \subsection{Feature Elimination}
@@ -51,7 +51,7 @@ The way we selected the optimal degree for each feature was the following: for e
 Knowing the best degree for each of the individual features, we then built our final dataset by adding the optimal number of polynomial bases for each feature in turn. During that step, some features for which the optimal degree we obtained was 0 were effectively deleted from the dataset, thereby achieving a similar result as feature elimination would have.
 
 \section{ML Methods}
-In this section we perfom an analysis on our implemented regression and classification methods. Before doing that, we also need to mention how we performed our model selection.
+In this section we perfom an analysis on our implemented regression and classification methods \cite{bishop} . Before doing that, we also need to mention how we performed our model selection.
 
 \subsection{Model Selection}
 Once our dataset was ready we proceeded to find the method yielding the best results for our dataset. To do so, we selected several potential values for the various parameters of the regression and classification methods. We ran this step only varying $\gamma$ and $\lambda$, as the initial weight vector doesn't seem to play a significant role and the number of iterations has no "optimal" value as it represents only a tradeoff between result precision and running time.
@@ -79,7 +79,7 @@ The same problem occurs in that function as well. However, if we could have over
 \section{Performance Analysis}
 In this report, we analyzed a binary classification dataset with both regression and classification methods. The data preperation and preprocessing played a crucial role in order to get good results. For the regression methods, we got our best score (81.396\%) from Ridge Regression ($\lambda=10^{-6}$). The $\lambda$ was pretty small meaning that least squares is also a good method and almost equal to ridge regression. For the classification methods, we were expected to get slightly better results than the regression methods but since we had some numerical issues in our implementation, we did not manage to do so. Finally, by ploting our boxplot in Fig. \ref{fig:f1}, we claim that we can get almost the same score for different test-sets.
 
-%\bibliographystyle{IEEEtran}
-%\bibliography{literature}
+\bibliographystyle{IEEEtran}
+\bibliography{literature}
 
 \end{document}
