@@ -5,7 +5,7 @@
 ### Test Code
 To run the algorithms that gives us the best result, run the `scripts/run.py` file
 <br />
-To test all the algorithms one-by-one and get a better idea, open the `project1.ipynb`
+To test all the algorithms one-by-one and get a better idea, open the `scripts/project1.ipynb`
 
 ### Input Data
 Download the input Higgs boson Data from [Kaggle](https://inclass.kaggle.com/c/epfml-project-1/data)
