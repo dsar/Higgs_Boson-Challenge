@@ -30,7 +30,7 @@ By running the \verb|matrix_rank()| function of the numpy library we managed to 
 \subsection{Standardization}
 We applied standardization on the training and test datasets before doing any further work. In addition to reducing the data on each feature to zero mean and unit variance as was done in the provided standardization function, we also handled the values which could not be measured (those with value -999) by replacing them by the mean value of their feature. The mean was of course calculated without including these outliers.
 \subsection{Feature Elimination}
-Some features are more important than others to the model accuracy. We tried to get an evaluation of the importance of each feature by computing the feature's usefulness, namely their correlation with the class labels y. We obtain the graph on the left side of Fig. 1 (where a coefficient close to 1 or -1 denotes an high correlation, and 0 no correlation).
+Some features are more important than others to the model accuracy. We tried to get an evaluation of the importance of each feature by computing the feature's usefulness, namely their correlation with the class labels y. We obtain the graph on the left side of Fig. \ref{fig:f1} (where a coefficient close to 1 or -1 denotes an high correlation, and 0 no correlation).
 
 \begin{figure}[h]
   \centering
@@ -38,6 +38,7 @@ Some features are more important than others to the model accuracy. We tried to 
   \includegraphics[width=0.42\columnwidth]{boxplot}
   \caption{left: feature's correlation with y, right:score boxplot}
   \vspace{-3mm}
+  \label{fig:f1}
 \end{figure}
 
 Then, we chose a threshold (in absolute value) above which we kept the features. In our case, we observed that feature selection doesn't give us better results. However, it is possible to get similar results with fewer features which actually makes our computations cheaper.
@@ -76,7 +77,7 @@ Our implementation can do a descent classification for small datasets, however f
 The same problem occurs in that function as well. However, if we could have overcomed the numerical issues we would expect to get a slightly better score than ridge regression.
 
 \section{Performance Analysis}
-In this report, we analyzed a binary classification dataset with both regression and classification methods. The data preperation and preprocessing played a crucial role in order to get good results. For the regression methods, we got our best score (81.396\%) from Ridge Regression ($\lambda=10^{-6}$). The lambda was pretty small meaning that least squares is also a good method and almost equal to ridge regression. For the classification methods, we were expected to get slightly better results than the regression methods but since we had some numerical issues in our implementation, we did not manage to do so.
+In this report, we analyzed a binary classification dataset with both regression and classification methods. The data preperation and preprocessing played a crucial role in order to get good results. For the regression methods, we got our best score (81.396\%) from Ridge Regression ($\lambda=10^{-6}$). The $\lambda$ was pretty small meaning that least squares is also a good method and almost equal to ridge regression. For the classification methods, we were expected to get slightly better results than the regression methods but since we had some numerical issues in our implementation, we did not manage to do so. Finally, by ploting our boxplot in Fig. \ref{fig:f1}, we claim that we can get almost the same score for different test-sets.
 
 %\bibliographystyle{IEEEtran}
 %\bibliography{literature}
