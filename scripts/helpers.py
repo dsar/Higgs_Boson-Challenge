@@ -34,16 +34,6 @@ def batch_iter(y, tx, batch_size, num_batches=None, shuffle=True):
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
-# my funcions
-# def build_poly(x, degree):
-#     """Build the polynomial expansion of x to the given degree"""
-#     N = x.shape[0]
-#     φ = np.ones([N, degree+1])
-#     for d in range(1,degree+1):
-#         φ[:,d] = x ** d
-#     return φ
-
-# my funcions
 def build_poly(x, degree):
     """Build the polynomial expansion of x to the given degree"""
     N = x.shape[0]
@@ -127,6 +117,7 @@ def predict_logistic_labels(weights, data, threshold=0.5):
     return y_pred
 
 def score(y, tx, w, threshold=0):
+    """calculates the final score of a given method"""
     labels = predict_labels(w, tx, threshold)
     count = 0
     for i in range(len(labels)):
@@ -136,6 +127,8 @@ def score(y, tx, w, threshold=0):
     return count/len(labels)
 
 def logistic_score(y, tx, w, threshold=0.5):
+    """Generates class predictions given weights, and a test data matrix
+     for logistic regression methods"""
     labels = predict_logistic_labels(w, tx, threshold)
     count = 0
     for i in range(len(labels)):

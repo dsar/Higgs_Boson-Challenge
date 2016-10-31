@@ -14,6 +14,7 @@ def compute_gradient(y, tx, w):
     return gradient
 	
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
+	"""implements least squares using gradient descent"""
 	w = initial_w
 
 	for n_iter in range(max_iters):
@@ -24,6 +25,7 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 	return w, loss
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
+	"""implements least squares using stochastic gradient descent"""
 	w = initial_w
 	min_loss = compute_loss(y, tx, w)
 	min_w = w
@@ -40,12 +42,14 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 	return min_w, min_loss
 
 def least_squares(y, tx):
+	"""implements least squares by solving the linear equations"""
 	w = np.linalg.solve(np.transpose(tx).dot(tx), np.transpose(tx).dot(y))
 	loss = compute_loss(y, tx, w)
 
 	return w, loss
 
 def ridge_regression(y, tx, lambda_):
+	"""implements ridge regression by solving the linear equations"""
 	N = tx.shape[0]
 	D = tx.shape[1]
 
@@ -71,12 +75,14 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 	return w, loss
 
 def regularizers(lambda_, w):
+	"""regularizer function"""
 	gradient_reg = 2 * lambda_ * w
 	loss_reg = np.asscalar(lambda_ * np.transpose(tx).dot(w))
 
 	return gradient_reg, loss_reg
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+	"""Implements regularized logistic regression"""
 	w = initial_w
 
 	for n_iter in range(max_iters):

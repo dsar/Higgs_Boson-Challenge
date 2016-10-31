@@ -21,6 +21,7 @@ def standardize_outliers(tx, undef):
             col = col - mean[i]
         tx[:,i] = col
 
+    # add offset column
     #tx = np.hstack((np.ones((x.shape[0],1)), x))
     return tx, mean, std
 
@@ -43,6 +44,7 @@ def de_standardize(tx, mean_x, std_x):
     return tx
 
 def count_outliers(tX,outlier):
+    """counts and prints the number of the outliers given as a param"""
     features = tX.shape[1]
     sample_size = tX.shape[0]
     outliers = np.zeros(features)
@@ -54,6 +56,7 @@ def count_outliers(tX,outlier):
 
 import matplotlib.pyplot as plt
 def plot_features_by_y(y,tX):
+    """plots all features with respect to y (one-by-one)"""
     features = tX.shape[1]
     for feature in range(features):
         print('feature: ',feature)
