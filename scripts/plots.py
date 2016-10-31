@@ -9,24 +9,9 @@ from proj1_helpers import de_standardize, standardize
 def visualization(y, x, mean_x, std_x, w, save_name):
     """visualize the raw data as well as the classification result."""
 
-    #~~~DEBUGGING~~~
-    print('---visualization---START')
-    print('x shape: ',x.shape)
-    print('y shape:',y.shape)
-    print('mean_x shape:',mean_x.shape)
-    print('std_x shape:',std_x.shape)
-    print('---visualization---END')
-
-
     fig = plt.figure()
     # plot raw data
-    print('before standardize: x shape',x.shape)
-    print('before standardize: mean x shape',mean_x.shape)
-    print('before standardize: std x shape',std_x.shape)
     x = de_standardize(x, mean_x, std_x)
-    print('after standardize: x shape',x.shape)
-    print('after standardize: mean x shape',mean_x.shape)
-    print('after standardize: std x shape',std_x.shape)
     ax1 = fig.add_subplot(1, 2, 1)
     males = np.where(y == 1)
     females = np.where(y == 0)

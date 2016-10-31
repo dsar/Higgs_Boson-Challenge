@@ -14,7 +14,9 @@ def compute_gradient(y, tx, w):
     return gradient
 	
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-	"""implements least squares using gradient descent"""
+	"""implements least squares using gradient descent
+		returns the best parameters in a numpy array and the final
+		corresponding loss"""
 	w = initial_w
 
 	for n_iter in range(max_iters):
@@ -25,7 +27,9 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 	return w, loss
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
-	"""implements least squares using stochastic gradient descent"""
+	"""implements least squares using stochastic gradient descent
+	returns the best parameters that correspond to the minimimum loss found.
+	Also returns the minimum loss"""
 	w = initial_w
 	min_loss = compute_loss(y, tx, w)
 	min_w = w
@@ -42,14 +46,16 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 	return min_w, min_loss
 
 def least_squares(y, tx):
-	"""implements least squares by solving the linear equations"""
+	"""implements least squares by solving the linear equations
+	Returns the best parameters in an numpy array and the corresponding minumum loss"""
 	w = np.linalg.solve(np.transpose(tx).dot(tx), np.transpose(tx).dot(y))
 	loss = compute_loss(y, tx, w)
 
 	return w, loss
 
 def ridge_regression(y, tx, lambda_):
-	"""implements ridge regression by solving the linear equations"""
+	"""implements ridge regression by solving the linear equations (needs an appropriate lambda parameter)
+	Returns the besy parameters in a numpy array and the corresponding minimum loss"""
 	N = tx.shape[0]
 	D = tx.shape[1]
 
@@ -65,6 +71,8 @@ def compute_logistic_gradient(y, tx, w):
 	return np.transpose(tx).dot(sigmoid(tx.dot(w)) - y)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
+	"""Implements logistic regression using gradient descent
+	Returns the best parameters in a numpy array and the corresponding loss"""
 	w = initial_w
 
 	for n_iter in range(max_iters):
@@ -75,14 +83,15 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 	return w, loss
 
 def regularizers(lambda_, w):
-	"""regularizer function"""
+	"""regularizer function (to be used in reg_logistic_regression"""
 	gradient_reg = 2 * lambda_ * w
 	loss_reg = np.asscalar(lambda_ * np.transpose(tx).dot(w))
 
 	return gradient_reg, loss_reg
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-	"""Implements regularized logistic regression"""
+	"""Implements regularized logistic regression
+	Returns the best parameters in a numpy array and the corresponding loss"""
 	w = initial_w
 
 	for n_iter in range(max_iters):
