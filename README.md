@@ -3,7 +3,7 @@
 ## Exploratory analysis on CERN Data.
 
 ### Test Code
-To run the algorithm that gives us the best result (published in kaggle), run the `scripts/run.py` file
+To run the algorithm that gives us the best result (published in [kaggle](https://inclass.kaggle.com/c/epfml-project-1/leaderboard)), run the `scripts/run.py` file
 <br />
 To test all the algorithms one-by-one and get a better idea, open the `scripts/project1.ipynb`
 
