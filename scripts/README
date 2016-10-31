@@ -1,9 +1,9 @@
-Notebook
+### Notebook
 - Section 1: preparation of the data (standardization and polynomial expansion)
 - Section 2: find the best parameters through cross-validation
 - Section 3: apply the best weights to the test data and output submission file
 
-Important files:
+### Important files:
 - implementations.py
 	Contains implementations of the basic functions (no cross-validation or any fancy stuff)
 - data_preparation.py
@@ -13,13 +13,9 @@ Important files:
 - cross_validation.py
 	Implements cross-validation (test_** functions) to find best parameters (see notebook)
 
-Helpers
+### Helpers
 - helpers.py
 - costs.py
 
-Files not needed:
-- logistic_regression (Newton method)
-- plots.py
-
-Notes
+### Notes
 - Cross validation can take a lot of time. You can change the number of iterations in the test_** functions in cross-validation.py
