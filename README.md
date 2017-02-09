@@ -1,4 +1,4 @@
-# PCML_Project-1
+# Higgs Boson Challenge
 
 ## Exploratory analysis on CERN Data.
 
