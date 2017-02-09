@@ -2,7 +2,7 @@ import numpy as np
 from helpers import *
 from data_preparation import standardize_outliers
 from feature_selection import best_feature_degrees, build_poly_by_feature
-from implementations import least_squares
+from implementations import least_squares, ridge_regression
 
 # Load the training data
 DATA_TRAIN_PATH = "../Data/train.csv"
